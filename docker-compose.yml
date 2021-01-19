@@ -1,0 +1,29 @@
+version: '2.0' 
+services:
+  api:
+    #image: riyazahamed/image:1.0
+    build: ./
+    ports:
+     - "8000:8000"
+    environment:
+      - DB_URI=mysql+pymysql://root:root@db:3306/book_shop
+      - APP_PORT=8000
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - flask-app-network
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - "3307:3306"
+    networks:
+      - flask-app-network
+
+networks:
+    flask-app-network:
+        driver: bridge
